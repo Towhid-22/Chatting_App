@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { getDatabase, push, ref, set } from "firebase/database";
-
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import { BsLinkedin } from "react-icons/bs";
@@ -8,8 +15,12 @@ import { FaFacebook } from "react-icons/fa";
 import { IoLogoTwitter } from "react-icons/io";
 import { Link } from "react-router";
 import { MdOutlineError } from "react-icons/md";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const provider = new GoogleAuthProvider();
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
 
@@ -28,6 +39,57 @@ const Login = () => {
     setpassError("");
   };
   let signUpBtn = () => {
+    if (mails && pass) {
+      signInWithEmailAndPassword(auth, mails, pass)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user)
+          toast.success("Login Successfull", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+          setTimeout(() => {
+            navigate("/home");
+          }, 2000);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if (errorCode.includes("auth/invalid-credential")) {
+            toast.error("Invalid Credential", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+            });
+          } else {
+            toast.error(errorCode, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+            });
+          }
+        });
+    }
+
     if (!mails) {
       setmailError("Email is required");
     } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mails)) {
@@ -55,8 +117,76 @@ const Login = () => {
     }
   };
 
+  let googleLogin = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        
+        toast.success("Login Successfull", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        const user = result.user;
+        console.log(user);
+
+
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        toast.error(errorCode, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
+  };
+
   return (
     <section className="grid text-center h-screen items-center bg-computer">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <div className="grid relative bg-black h-screen w-full items-center  opacity-[.60]"></div>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className=" w-[500px] mx-auto p-5 bg-gray-50 rounded-lg">
@@ -188,7 +318,11 @@ const Login = () => {
            </div> */}
             <p className="mt-6">Login With</p>
             <div className="flex justify-between items-center">
-              <Button variant="outlined" className="mt-6 h-12">
+              <Button
+                onClick={googleLogin}
+                variant="outlined"
+                className="mt-6 h-12"
+              >
                 <img
                   src={`https://www.material-tailwind.com/logos/logo-google.png`}
                   alt="google"

@@ -6,6 +6,7 @@ import {
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
@@ -68,6 +69,17 @@ export function Registration() {
               photoURL: "https://picsum.photos/200/300",
             })
               .then(() => {
+                toast.success('Account Created Successful', {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                  });
                 // Signed up
                 const user = userCredential.user;
                 console.log(user);
@@ -317,6 +329,19 @@ export function Registration() {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </section>
   );
 }
