@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Group from "./components/Group";
+import Friends from "./components/Friends";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/group" element={<Group />} />
+        <Route path="/friends" element={<Friends />} />
       </Routes>
     </BrowserRouter>
   );

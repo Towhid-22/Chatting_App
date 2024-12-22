@@ -6,7 +6,7 @@ import {
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
@@ -69,7 +69,7 @@ export function Registration() {
               photoURL: "https://picsum.photos/200/300",
             })
               .then(() => {
-                toast.success('Account Created Successful', {
+                toast.success("Account Created Successful", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -79,7 +79,7 @@ export function Registration() {
                   progress: undefined,
                   theme: "light",
                   transition: Bounce,
-                  });
+                });
                 // Signed up
                 const user = userCredential.user;
                 console.log(user);
@@ -198,7 +198,7 @@ export function Registration() {
                 type="email"
                 name="email"
                 placeholder="name@mail.com"
-                className={`text-gray-900 w-full placeholder:opacity-100 focus:border-t-primary ${mailError? "focus:border-red-500": "border-red-600"} `}
+                className="text-gray-900 w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
                 labelProps={{
                   className: "hidden",
                 }}
@@ -243,34 +243,6 @@ export function Registration() {
                 value={pass}
               />
             </div>
-            {/* {passError && (
-              // !this is need to customize
-              <div
-                role="alert"
-                className="mb-4 relative flex w-full p-3 text-sm text-white bg-red-600 rounded-md mt-[-24px]"
-              >
-                {passError}
-                <button
-                  className="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5"
-                  type="button"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-5 w-5"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            )} */}
             {passError && (
               <p className="mt-[-20px] text-red-500">{passError}</p>
             )}
