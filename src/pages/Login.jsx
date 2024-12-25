@@ -42,8 +42,6 @@ const Login = () => {
     if (mails && pass) {
       signInWithEmailAndPassword(auth, mails, pass)
         .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user)
           toast.success("Login Successfull", {
             position: "top-center",
             autoClose: 5000,
@@ -55,8 +53,10 @@ const Login = () => {
             theme: "light",
             transition: Bounce,
           });
+          const user = userCredential.user;
+          console.log(user);
           setTimeout(() => {
-            navigate("/home");
+            navigate("/");
           }, 2000);
         })
         .catch((error) => {
@@ -92,35 +92,16 @@ const Login = () => {
 
     if (!mails) {
       setmailError("Email is required");
-    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mails)) {
-      setmailError("Invalid mail");
-    } else {
-      set(push(ref(db, "chattingApp/")), {
-        name: mails,
-      }).then(() => {
-        setMails("");
-      });
     }
 
     if (!pass) {
       setpassError("Password is required");
-    } else if (
-      !/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/.test(pass)
-    ) {
-      setpassError("Please contain special character");
-    } else {
-      set(push(ref(db, "chattingApp/")), {
-        name: pass,
-      }).then(() => {
-        setPass("");
-      });
     }
   };
 
   let googleLogin = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        
         toast.success("Login Successfull", {
           position: "top-center",
           autoClose: 5000,
@@ -134,10 +115,14 @@ const Login = () => {
         });
         const user = result.user;
         console.log(user);
-
+        set(ref(db, "users/" + user.uid), {
+          name: user.displayName,
+          email: user.email,
+          image: user.photoURL,
+        });
 
         setTimeout(() => {
-          navigate("/home");
+          navigate("/");
         }, 2000);
       })
       .catch((error) => {

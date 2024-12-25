@@ -83,13 +83,33 @@ export function Registration() {
                 // Signed up
                 const user = userCredential.user;
                 console.log(user);
-                setNames("");
-                setMails("");
-                setPass("");
+                set(ref(db, "users/" + user.uid), {
+                  name: names,
+                  email: mails,
+                  image: "https://picsum.photos/200/300",
+                })
+                  .then(() => {
+                    setNames("");
+                    setMails("");
+                    setPass("");
 
-                setTimeout(() => {
-                  navigate("/login");
-                }, 2000);
+                    setTimeout(() => {
+                      navigate("/login");
+                    }, 2000);
+                  })
+                  .catch((error) => {
+                    toast.error(error, {
+                      position: "top-center",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: false,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                      transition: Bounce,
+                    });
+                  });
               })
               .catch((error) => {
                 console.log(error);
@@ -134,7 +154,7 @@ export function Registration() {
               </label>
               <Input
                 onChange={accountName}
-                id="email"
+                id="name"
                 color="black"
                 size="lg"
                 type="text"
@@ -312,6 +332,19 @@ export function Registration() {
         draggable
         pauseOnHover
         theme="light"
+        transition={Bounce}
+      />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
         transition={Bounce}
       />
     </section>

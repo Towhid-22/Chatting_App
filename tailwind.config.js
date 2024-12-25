@@ -22,6 +22,7 @@ module.exports = withMT({
       },
       container: {
         screens: {
+          xxs: "475px",
           sm: "600px",
           md: "728px",
           lg: "1024px",

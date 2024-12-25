@@ -94,12 +94,14 @@ const Sidebar = () => {
             </ListItemPrefix>
             Settings
           </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <RiLogoutBoxRLine className="h-5 w-5" />
-            </ListItemPrefix>
-            Log Out
-          </ListItem>
+          <Link to="/login">
+            <ListItem>
+              <ListItemPrefix>
+                <RiLogoutBoxRLine className="h-5 w-5" />
+              </ListItemPrefix>
+              Log Out
+            </ListItem>
+          </Link>
         </List>
       </Card>
     </>
