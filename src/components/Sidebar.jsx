@@ -37,7 +37,7 @@ const Sidebar = () => {
           />
         </div>
         <List>
-          <Link to="/home">
+          <Link to="/">
             <ListItem>
               <ListItemPrefix>
                 <IoHome className="h-5 w-5" />
