@@ -60,7 +60,7 @@ const Login = () => {
           });
           const user = userCredential.user;
           console.log(user);
-          dispatch(userLoginInfo(user))
+          dispatch(userLoginInfo(user));
           localStorage.setItem("UserInfo", JSON.stringify(user));
           setTimeout(() => {
             navigate("/");
@@ -127,8 +127,8 @@ const Login = () => {
           email: user.email,
           image: user.photoURL,
         });
-        dispatch(userLoginInfo(user))
-          localStorage.setItem("UserInfo", JSON.stringify(user));
+        dispatch(userLoginInfo(user));
+        localStorage.setItem("UserInfo", JSON.stringify(user));
         setTimeout(() => {
           navigate("/");
         }, 2000);
