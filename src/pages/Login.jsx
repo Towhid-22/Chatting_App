@@ -16,10 +16,15 @@ import { IoLogoTwitter } from "react-icons/io";
 import { Link } from "react-router";
 import { MdOutlineError } from "react-icons/md";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { userLoginInfo } from "../slices/UserSlice";
 
 const Login = () => {
+  // const data = localStorage.getItem("UserInfo");
+  // console.log(JSON.parse(data));
   const auth = getAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const provider = new GoogleAuthProvider();
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
@@ -55,6 +60,8 @@ const Login = () => {
           });
           const user = userCredential.user;
           console.log(user);
+          dispatch(userLoginInfo(user))
+          localStorage.setItem("UserInfo", JSON.stringify(user));
           setTimeout(() => {
             navigate("/");
           }, 2000);
@@ -120,7 +127,8 @@ const Login = () => {
           email: user.email,
           image: user.photoURL,
         });
-
+        dispatch(userLoginInfo(user))
+          localStorage.setItem("UserInfo", JSON.stringify(user));
         setTimeout(() => {
           navigate("/");
         }, 2000);

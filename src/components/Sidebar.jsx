@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IoHome } from "react-icons/io5";
 import { FaUserCircle, FaUserFriends } from "react-icons/fa";
 import { PiUserListFill } from "react-icons/pi";
@@ -6,26 +6,20 @@ import { RiNotification2Fill, RiLogoutBoxRLine } from "react-icons/ri";
 import { Avatar } from "@material-tailwind/react";
 import { MdMessage } from "react-icons/md";
 import { HiUserGroup } from "react-icons/hi2";
-import { Link } from "react-router";
-import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-  Chip,
-} from "@material-tailwind/react";
-import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
-} from "@heroicons/react/24/solid";
+import { Link, useNavigate } from "react-router";
+import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
+import { Cog6ToothIcon } from "@heroicons/react/24/solid";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const userdata = useSelector((state) => state.userInfo.value);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!userdata) {
+      navigate("/login");
+    }
+  });
+
   return (
     <>
       <Card className=" w-full max-w-[16rem] bg-gra p-4 shadow-xl rounded-none shadow-blue-gray-900/5">
@@ -35,6 +29,9 @@ const Sidebar = () => {
             alt="avatar"
             size="xxl"
           />
+          {userdata && (
+            <h1 className="text-xl font-bold">{userdata.displayName}</h1>
+          )}
         </div>
         <List>
           <Link to="/">
