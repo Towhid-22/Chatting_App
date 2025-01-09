@@ -275,17 +275,6 @@ export function Registration() {
             >
               sign up
             </Button>
-            {/* <div className="!mt-4 flex justify-end">
-            <Typography
-              as="a"
-              href="#"
-              color="blue-gray"
-              variant="small"
-              className="font-medium"
-            >
-              Forgot password
-            </Typography>
-          </div> */}
             <p className="mt-6">SignUp With</p>
             <div className="flex justify-between items-center">
               <Button variant="outlined" className="mt-6 h-12">
